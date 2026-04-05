@@ -1,555 +1,1089 @@
-'use client';
+import Link from 'next/link';
 
-import { useMemo, useState } from 'react';
-
-export default function JungbloomSite() {
-  const frictionTypes = useMemo(
-    () => [
-      {
-        key: 'attention',
-        title: 'attention friction',
-        description:
-          'the student moves too fast, misses key details, or loses stability on longer tasks.',
-        signals: ['fast wrong answers', 'high error rate', 'performance drop on longer tasks'],
-        intervention: 'shorter questions, slow mode, and first-step checks.',
-      },
-      {
-        key: 'knowledge',
-        title: 'knowledge friction',
-        description:
-          'the issue is not attention but missing knowledge or weak foundations.',
-        signals: ['slow and wrong answers', 'errors on basic questions', 'repeated conceptual failure'],
-        intervention: 'mini explanation, worked example, and targeted repetition.',
-      },
-      {
-        key: 'strategy',
-        title: 'strategy friction',
-        description:
-          'the student does not know how to begin, even if the knowledge may exist.',
-        signals: ['long start delay', 'progress only after hints', 'weak first-step choices'],
-        intervention: 'first-step guidance and solution skeletons.',
-      },
-      {
-        key: 'language',
-        title: 'question-language friction',
-        description:
-          'the student misunderstands what the question is asking.',
-        signals: ['wrong task type', 'instruction confusion', 'command interpretation errors'],
-        intervention: 'question intent breakdown and command analysis.',
-      },
-    ],
-    []
-  );
-
-  const layers = [
+export default function JungbloomLandingPage() {
+  const benefits = [
     {
-      title: 'behavior tracking',
-      body: 'correctness, response time, start delay, skip behavior, abandonment, retries, and answer patterns are captured as observable learning behavior.',
+      title: 'Less Manual Prep',
+      description:
+        'Teachers do not need to build multiple follow-up worksheets by hand for every student.',
     },
     {
-      title: 'signal extraction',
-      body: 'raw actions are converted into interpretable signals such as impulsive answering, hesitation, repeated misconception, and weak question interpretation.',
+      title: 'Better Follow-Up Questions',
+      description:
+        'Students get the next question based on how they struggled, not just whether they were right or wrong.',
     },
     {
-      title: 'friction diagnosis',
-      body: 'the system scores likely friction across attention, knowledge, strategy, and question-language dimensions.',
-    },
-    {
-      title: 'decision engine',
-      body: 'the dominant friction is identified and matched with the most useful next intervention.',
-    },
-    {
-      title: 'adaptive question engine',
-      body: 'the next ai-generated question changes in support level, structure, difficulty, or explanation depth based on the diagnosed friction.',
-    },
-    {
-      title: 'explanation layer',
-      body: 'the student sees what was noticed, why the system thinks it happened, and why the next question changed.',
+      title: 'Improving Quality Over Time',
+      description:
+        'As the system learns from structured teaching material, generated questions become more aligned and useful.',
     },
   ];
 
-  const faqs = [
+  const steps = [
     {
-      q: 'is this just another ai tutor?',
-      a: 'no. jungbloom is not just answering questions. it diagnoses where learning breaks down and adjusts the next question accordingly.',
+      number: '01',
+      title: 'Observe Response Patterns',
+      description:
+        'Jungbloom tracks timing, retries, hesitation, and answer behavior during student practice.',
     },
     {
-      q: 'why ai-based questions?',
-      a: 'because static content does not adapt fast enough. ai-generated questions let the system target the exact friction the student is showing.',
+      number: '02',
+      title: 'Detect The Learning Issue',
+      description:
+        'The system identifies whether the problem is weak foundations, misunderstanding, speed, or poor starting strategy.',
     },
     {
-      q: 'how does this reduce teacher workload?',
-      a: 'teachers do not need to manually prepare every variation of practice. the system generates, adapts, and explains the next task automatically.',
-    },
-    {
-      q: 'what happens with uploaded pdfs later?',
-      a: 'in later versions, uploaded pdf questions can be used as structured learning material so the system learns better question patterns and produces stronger question generation.',
+      number: '03',
+      title: 'Generate The Next Question',
+      description:
+        'A better follow-up question is created automatically to match the student’s actual need.',
     },
   ];
 
-  const [selectedFriction, setSelectedFriction] = useState(frictionTypes[2]);
-  const [openFaq, setOpenFaq] = useState(0);
+  const cardStyle = {
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(255,255,255,0.10)',
+    borderRadius: '16px',
+  };
+
+  const smallCardStyle = {
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(255,255,255,0.10)',
+    borderRadius: '12px',
+  };
+
+  const buttonPrimary = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#34d399',
+    color: '#04130c',
+    border: 'none',
+    borderRadius: '10px',
+    padding: '14px 18px',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+    textDecoration: 'none',
+  };
+
+  const buttonSecondary = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'transparent',
+    color: 'white',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: '10px',
+    padding: '14px 18px',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+    textDecoration: 'none',
+  };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <div className="sticky top-0 z-50 border-b border-neutral-900/80 bg-neutral-950/85 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10 lg:px-12">
-          <div>
-            <p className="text-xl font-semibold tracking-tight">jungbloom</p>
-            <p className="text-xs text-neutral-500">adaptive learning diagnosis and ai question generation</p>
+    <main
+      style={{
+        minHeight: '100vh',
+        background:
+          'radial-gradient(circle at top, rgba(52,211,153,0.08), transparent 28%), #090909',
+        color: 'white',
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      }}
+    >
+      <header
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+          backdropFilter: 'blur(14px)',
+          background: 'rgba(9,9,9,0.88)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: '0 auto',
+            padding: '16px 24px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 20,
+            flexWrap: 'wrap',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 10,
+                border: '1px solid rgba(255,255,255,0.10)',
+                background: 'rgba(255,255,255,0.03)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+             <img
+  src="/logo.png" // public klasörüne at
+  alt="jungbloom logo"
+  style={{
+    width: 50,
+    height: 50,
+    objectFit: 'contain',
+  }}
+/>
+            </div>
+            <div>
+              <div style={{ fontSize: 16, fontWeight: 700 }}>Jungbloom</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+                Adaptive AI Assignment Infrastructure
+              </div>
+            </div>
           </div>
 
-          <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
-            <a href="#problem" className="hover:text-white">problem</a>
-            <a href="#ai-questions" className="hover:text-white">ai questions</a>
-            <a href="#architecture" className="hover:text-white">architecture</a>
-            <a href="#frictions" className="hover:text-white">frictions</a>
-            <a href="#faq" className="hover:text-white">faq</a>
+          <nav
+            style={{
+              display: 'flex',
+              gap: 22,
+              fontSize: 14,
+              color: 'rgba(255,255,255,0.72)',
+              flexWrap: 'wrap',
+            }}
+          >
+            <a href="#product" style={{ color: 'inherit', textDecoration: 'none' }}>
+              Product
+            </a>
+            <a href="#benefits" style={{ color: 'inherit', textDecoration: 'none' }}>
+              Benefits
+            </a>
+            <a href="#how" style={{ color: 'inherit', textDecoration: 'none' }}>
+              How It Works
+            </a>
+            <a href="#future" style={{ color: 'inherit', textDecoration: 'none' }}>
+              Future Layer
+            </a>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <button className="rounded-2xl border border-neutral-800 px-4 py-2 text-sm text-neutral-200 transition hover:border-neutral-600">
-              request demo
-            </button>
-            <button className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:opacity-90">
-              contact
-            </button>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <Link href="/contact" style={buttonSecondary}>
+              Request Demo
+            </Link>
+            <Link
+              href="/contact"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'white',
+                color: 'black',
+                border: 'none',
+                borderRadius: '10px',
+                padding: ' 18px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                textDecoration: 'none',
+              }}
+            >
+              Contact
+            </Link>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8 md:px-10 lg:px-12">
-        <section className="grid gap-8 pb-10 pt-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 24px 40px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.05fr 0.95fr',
+            gap: 48,
+            alignItems: 'center',
+          }}
+        >
           <div>
-            <p className="inline-flex rounded-full border border-neutral-800 px-3 py-1 text-xs uppercase tracking-[0.22em] text-neutral-400">
-              adaptive diagnosis + ai-based question generation
-            </p>
-
-            <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl md:leading-[1.02]">
-              jungbloom helps students move forward with the right next question
+            <h1
+              style={{
+                marginTop: 24,
+                fontSize: 'clamp(42px, 7vw, 76px)',
+                lineHeight: 0.96,
+                letterSpacing: '-0.04em',
+                fontWeight: 700,
+                maxWidth: 820,
+              }}
+            >
+              Smarter Assignments, 
+              <br />
+              Less Manual Work.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-neutral-300 md:text-lg">
-              jungbloom identifies why a student is getting stuck, then generates the next question
-              accordingly. the goal is not just practice. the goal is better practice with less teacher workload.
+            <p
+              style={{
+                marginTop: 24,
+                maxWidth: 720,
+                fontSize: 18,
+                lineHeight: 1.8,
+                color: 'rgba(255,255,255,0.65)',
+              }}
+            >
+              Jungbloom analyzes student response patterns, detects where they struggle, and
+              generates more useful follow-up questions automatically.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#ai-questions"
-                className="rounded-2xl bg-white px-5 py-3 font-medium text-black transition hover:opacity-90"
-              >
-                see ai question flow
-              </a>
-              <a
-                href="#architecture"
-                className="rounded-2xl border border-neutral-800 px-5 py-3 text-neutral-200 transition hover:border-neutral-600"
-              >
-                read system logic
-              </a>
-            </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-5">
-                <p className="text-sm text-neutral-400">core idea</p>
-                <p className="mt-2 text-lg font-semibold">failure has different causes</p>
-              </div>
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-5">
-                <p className="text-sm text-neutral-400">product logic</p>
-                <p className="mt-2 text-lg font-semibold">diagnose first, generate next</p>
-              </div>
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-5">
-                <p className="text-sm text-neutral-400">teacher value</p>
-                <p className="mt-2 text-lg font-semibold">less manual prep, more targeted practice</p>
-              </div>
-            </div>
-          </div>
 
-          <div className="rounded-[2rem] border border-neutral-800 bg-gradient-to-br from-neutral-900 to-neutral-950 p-6 shadow-2xl shadow-black/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-neutral-400">live concept preview</p>
-                <p className="mt-1 text-xl font-semibold">ai-based question adaptation</p>
-              </div>
-              <div className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
-                teacher workload reduction
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950 p-5">
-                <p className="text-sm text-neutral-400">student state detected</p>
-                <p className="mt-2 text-2xl font-semibold">strategy friction</p>
-                <p className="mt-3 leading-7 text-neutral-300">
-                  the student is not fully blocked by knowledge. the real issue is how to start.
-                </p>
-              </div>
-
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm text-neutral-400">previous question</p>
-                  <span className="rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300">
-                    struggled
-                  </span>
+            <div
+              style={{
+                marginTop: 34,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                gap: 20,
+                maxWidth: 760,
+              }}
+            >
+              {[
+                ['Core Value', 'Adaptive Question Generation'],
+                ['Primary User', 'Teachers And Schools'],
+                ['Outcome', 'Higher Relevance, Lower Prep Time'],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  style={{
+                    borderLeft: '1px solid rgba(255,255,255,0.10)',
+                    paddingLeft: 14,
+                  }}
+                >
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{label}</div>
+                  <div style={{ marginTop: 8, fontSize: 14, fontWeight: 600 }}>{value}</div>
                 </div>
-                <p className="mt-3 text-lg leading-8 text-neutral-100">
-                  solve: 2x² - 7x + 3 = 0 and explain your method
-                </p>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="rounded-full border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm text-neutral-300">
-                  next question generated by jungbloom
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-white bg-white p-5 text-black">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm text-neutral-500">adapted ai question</p>
-                  <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
-                    first-step scaffold
-                  </span>
-                </div>
-                <p className="mt-3 text-lg leading-8">
-                  before solving the full equation, choose the best first method:
-                  factoring, completing the square, or quadratic formula. then write only the first step.
-                </p>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-                  <p className="text-sm text-neutral-400">what we noticed</p>
-                  <p className="mt-2 text-base font-medium">
-                    long hesitation and failed first approach
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-                  <p className="text-sm text-neutral-400">why it matters</p>
-                  <p className="mt-2 text-base font-medium">
-                    the issue is start structure, not full concept absence
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-                  <p className="text-sm text-neutral-400">what changed</p>
-                  <p className="mt-2 text-base font-medium">
-                    the next task narrows method choice and reduces load
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="problem" className="mt-24 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">problem</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
-              schools and teachers do not have time to personalize practice at scale
-            </h2>
-            <ul className="mt-6 space-y-4 text-base leading-8 text-neutral-300">
-              <li>most systems only show correct versus incorrect.</li>
-              <li>teachers cannot prepare custom follow-up questions for every student.</li>
-              <li>students repeat mistakes without understanding the real cause.</li>
-              <li>the same wrong answer can come from different types of friction.</li>
-              <li>static worksheets do not adapt in real time.</li>
-            </ul>
-          </div>
-
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">solution</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
-              diagnose the friction and generate the right next question automatically
-            </h2>
-            <p className="mt-6 text-base leading-8 text-neutral-300">
-              jungbloom analyzes how the student interacts with questions, detects the most likely learning friction,
-              and creates the next ai-based question accordingly. this reduces manual assignment design while improving relevance.
-            </p>
-            <div className="mt-8 rounded-3xl border border-neutral-800 bg-neutral-950 p-5">
-              <p className="text-sm text-neutral-400">critical insight</p>
-              <p className="mt-2 text-xl font-semibold">
-                better learning does not start with more content. it starts with better next steps.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section id="ai-questions" className="mt-24">
-          <div className="max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">ai-based questions</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-              assignments that adapt instead of repeating the same structure
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-7">
-              <p className="text-sm text-neutral-400">for students</p>
-              <h3 className="mt-3 text-2xl font-semibold">more relevant practice</h3>
-              <p className="mt-4 leading-8 text-neutral-300">
-                instead of getting another random question, the student gets a question shaped around the exact place they are breaking down.
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-7">
-              <p className="text-sm text-neutral-400">for teachers</p>
-              <h3 className="mt-3 text-2xl font-semibold">less manual workload</h3>
-              <p className="mt-4 leading-8 text-neutral-300">
-                teachers do not need to prepare endless differentiated homework sets. the system generates the next layer of practice automatically.
-              </p>
-            </div>
-
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-7">
-              <p className="text-sm text-neutral-400">for the model</p>
-              <h3 className="mt-3 text-2xl font-semibold">better future generation</h3>
-              <p className="mt-4 leading-8 text-neutral-300">
-                over time, structured question sources such as uploaded pdfs can improve the model’s understanding of question patterns and quality.
-              </p>
+              ))}
             </div>
           </div>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-              <p className="text-sm uppercase tracking-[0.16em] text-neutral-400">current phase</p>
-              <h3 className="mt-3 text-3xl font-semibold">ai-generated assignments</h3>
-              <ul className="mt-6 space-y-4 text-base leading-8 text-neutral-300">
-                <li>the system creates targeted follow-up questions.</li>
-                <li>question style changes based on detected friction.</li>
-                <li>difficulty and structure can adapt in real time.</li>
-                <li>the output is not only a question but a reason for why that question was chosen.</li>
-              </ul>
-            </div>
-
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-              <p className="text-sm uppercase tracking-[0.16em] text-neutral-400">future phase</p>
-              <h3 className="mt-3 text-3xl font-semibold">pdf-informed learning loop</h3>
-              <ul className="mt-6 space-y-4 text-base leading-8 text-neutral-300">
-                <li>teachers can upload question documents and worksheets.</li>
-                <li>the system can learn from real curriculum-aligned question structures.</li>
-                <li>this improves how future questions are generated.</li>
-                <li>the product becomes stronger as its structured learning material grows.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section id="architecture" className="mt-24">
-          <div className="max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">system architecture</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-              from behavior signal to generated next question
-            </h2>
-          </div>
-
-          <div className="mt-10 space-y-4">
-            {layers.map((layer, index) => (
+          <div id="product">
+            <div
+              style={{
+                ...cardStyle,
+                overflow: 'hidden',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.45)',
+              }}
+            >
               <div
-                key={layer.title}
-                className="grid gap-4 rounded-[2rem] border border-neutral-800 bg-neutral-900 p-6 md:grid-cols-[110px_1fr]"
+                style={{
+                  padding: '18px 20px',
+                  borderBottom: '1px solid rgba(255,255,255,0.10)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 12,
+                  flexWrap: 'wrap',
+                }}
               >
-                <div className="flex items-start">
-                  <div className="rounded-2xl border border-neutral-700 bg-neutral-950 px-4 py-3 text-sm text-neutral-300">
-                    layer {index + 1}
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>Adaptive Question Flow</div>
+                  <div style={{ marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+                    Product Preview
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">{layer.title}</h3>
-                  <p className="mt-3 max-w-4xl leading-8 text-neutral-300">{layer.body}</p>
+                <div
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: 999,
+                    border: '1px solid rgba(52,211,153,0.18)',
+                    background: 'rgba(52,211,153,0.10)',
+                    color: '#a7f3d0',
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  Live Logic
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
 
-        <section id="frictions" className="mt-24">
-          <div className="max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">friction types</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-              not every failure should trigger the same next question
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="space-y-4">
-              {frictionTypes.map((item) => {
-                const isActive = selectedFriction.key === item.key;
-
-                return (
-                  <button
-                    key={item.key}
-                    onClick={() => setSelectedFriction(item)}
-                    className={`w-full rounded-[2rem] border p-6 text-left transition ${
-                      isActive
-                        ? 'border-white bg-white text-black'
-                        : 'border-neutral-800 bg-neutral-900 text-white hover:border-neutral-600'
-                    }`}
+              <div style={{ padding: 20 }}>
+                <div
+                  style={{
+                    ...smallCardStyle,
+                    padding: 18,
+                    background: 'rgba(255,255,255,0.02)',
+                    marginBottom: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 12,
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                    }}
                   >
-                    <p className={`text-sm ${isActive ? 'text-neutral-600' : 'text-neutral-400'}`}>
-                      friction category
-                    </p>
-                    <h3 className="mt-2 text-2xl font-semibold">{item.title}</h3>
-                    <p className={`mt-3 leading-7 ${isActive ? 'text-neutral-700' : 'text-neutral-300'}`}>
-                      {item.description}
-                    </p>
-                  </button>
-                );
-              })}
-            </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>
+                        PDF Upload
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 4,
+                          fontSize: 12,
+                          color: 'rgba(255,255,255,0.45)',
+                        }}
+                      >
+                        Teacher Worksheet Import
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        padding: '6px 10px',
+                        borderRadius: 999,
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        fontSize: 12,
+                        color: 'rgba(255,255,255,0.65)',
+                      }}
+                    >
+                      PDF · Parsed
+                    </div>
+                  </div>
 
-            <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-7">
-              <p className="text-sm uppercase tracking-[0.16em] text-neutral-400">selected friction</p>
-              <h3 className="mt-3 text-3xl font-semibold">{selectedFriction.title}</h3>
-              <p className="mt-4 leading-8 text-neutral-300">{selectedFriction.description}</p>
+                  <div
+                    style={{
+                      marginTop: 14,
+                      borderRadius: 12,
+                      border: '1px dashed rgba(255,255,255,0.16)',
+                      background:
+                        'linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015))',
+                      padding: 16,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: '64px 1fr auto',
+                        gap: 14,
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 64,
+                          height: 78,
+                          borderRadius: 10,
+                          background: '#111214',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 22,
+                            height: 26,
+                            borderRadius: 4,
+                            background: 'rgba(255,255,255,0.12)',
+                          }}
+                        />
+                        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>PDF</div>
+                      </div>
 
-              <div className="mt-8">
-                <p className="text-sm font-medium text-neutral-400">signals</p>
-                <ul className="mt-3 space-y-3 text-neutral-200">
-                  {selectedFriction.signals.map((signal) => (
-                    <li key={signal} className="rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3">
-                      {signal}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>
+                          Grade 10 Algebra Worksheet — Quadratics Unit
+                        </div>
+                        <div
+                          style={{
+                            marginTop: 6,
+                            fontSize: 13,
+                            lineHeight: 1.7,
+                            color: 'rgba(255,255,255,0.6)',
+                          }}
+                        >
+                          14 questions detected · topic tags extracted · difficulty distribution mapped
+                        </div>
+                        <div
+                          style={{
+                            marginTop: 10,
+                            display: 'flex',
+                            gap: 8,
+                            flexWrap: 'wrap',
+                          }}
+                        >
+                          {['Quadratic Equations', 'Method Choice', 'Factorization'].map((tag) => (
+                            <span
+                              key={tag}
+                              style={{
+                                padding: '6px 10px',
+                                borderRadius: 999,
+                                fontSize: 12,
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                color: 'rgba(255,255,255,0.72)',
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
-              <div className="mt-8 rounded-2xl border border-neutral-800 bg-neutral-950 p-5">
-                <p className="text-sm font-medium text-neutral-400">intervention logic</p>
-                <p className="mt-2 text-lg text-neutral-100">{selectedFriction.intervention}</p>
+                      <div>
+                        <button
+                          style={{
+                            ...buttonSecondary,
+                            padding: '12px 14px',
+                            fontSize: 13,
+                          }}
+                        >
+                          Imported
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ ...smallCardStyle, padding: 18, background: 'rgba(0,0,0,0.24)' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      gap: 16,
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          letterSpacing: '0.18em',
+                          textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.35)',
+                        }}
+                      >
+                        Student Session
+                      </div>
+                      <div style={{ marginTop: 10, fontSize: 20, fontWeight: 600 }}>
+                        Algebra Practice · Session 04
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.40)' }}>
+                        Detected Difficulty
+                      </div>
+                      <div style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>
+                        Method Selection
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 18, display: 'grid', gap: 12 }}>
+                    <div
+                      style={{
+                        borderRadius: 12,
+                        padding: 16,
+                        border: '1px solid rgba(255,255,255,0.10)',
+                        background: 'rgba(255,255,255,0.03)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          gap: 12,
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <div style={{ fontSize: 14, fontWeight: 600 }}>Previous Question</div>
+                        <div
+                          style={{
+                            padding: '6px 10px',
+                            borderRadius: 999,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            background: 'rgba(255,255,255,0.04)',
+                            color: 'rgba(255,255,255,0.68)',
+                            border: '1px solid rgba(255,255,255,0.10)',
+                          }}
+                        >
+                          Too Broad
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 12,
+                          fontSize: 15,
+                          lineHeight: 1.85,
+                          color: 'rgba(255,255,255,0.76)',
+                        }}
+                      >
+                        Solve the quadratic equation
+                        <span style={{ color: 'white', fontWeight: 600 }}> 3x² − 11x + 6 = 0 </span>
+                        and explain which method you used. Show the full solution clearly and justify
+                        why your chosen method is efficient.
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        borderRadius: 12,
+                        padding: 16,
+                        border: '1px solid rgba(255,255,255,0.10)',
+                        background: 'rgba(255,255,255,0.03)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          gap: 12,
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <div style={{ fontSize: 14, fontWeight: 600 }}>Detected Pattern</div>
+                        <div
+                          style={{
+                            padding: '6px 10px',
+                            borderRadius: 999,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            background: 'rgba(255,255,255,0.04)',
+                            color: 'rgba(255,255,255,0.68)',
+                            border: '1px solid rgba(255,255,255,0.10)',
+                          }}
+                        >
+                          Start-Step Friction
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 12,
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                          gap: 10,
+                        }}
+                      >
+                        {[
+                          ['Initial Pause', '18s'],
+                          ['Method Changes', '2'],
+                          ['Confidence', 'Low'],
+                        ].map(([label, value]) => (
+                          <div
+                            key={label}
+                            style={{
+                              borderRadius: 10,
+                              border: '1px solid rgba(255,255,255,0.08)',
+                              background: 'rgba(0,0,0,0.18)',
+                              padding: 12,
+                            }}
+                          >
+                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.42)' }}>
+                              {label}
+                            </div>
+                            <div style={{ marginTop: 6, fontSize: 16, fontWeight: 600 }}>{value}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 12,
+                          fontSize: 14,
+                          lineHeight: 1.8,
+                          color: 'rgba(255,255,255,0.72)',
+                        }}
+                      >
+                        The student does not appear fully blocked by the concept. The main issue is
+                        selecting a starting method with confidence.
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        borderRadius: 12,
+                        padding: 16,
+                        border: '1px solid rgba(52,211,153,0.20)',
+                        background: 'rgba(52,211,153,0.10)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          gap: 12,
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <div style={{ fontSize: 14, fontWeight: 600 }}>Next Generated Question</div>
+                        <div
+                          style={{
+                            padding: '6px 10px',
+                            borderRadius: 999,
+                            fontSize: 12,
+                            fontWeight: 700,
+                            background: '#34d399',
+                            color: '#04130c',
+                          }}
+                        >
+                          Adapted
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 12,
+                          fontSize: 15,
+                          lineHeight: 1.85,
+                          color: '#d1fae5',
+                        }}
+                      >
+                        Before solving
+                        <span style={{ color: 'white', fontWeight: 700 }}> 3x² − 11x + 6 = 0</span>,
+                        choose the most efficient first method:
+                        <span style={{ color: 'white', fontWeight: 700 }}>
+                          {' '}
+                          factoring, completing the square, or the quadratic formula
+                        </span>
+                        . Then write only the first step and explain why that method is the best fit.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      marginTop: 18,
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                      gap: 12,
+                    }}
+                  >
+                    {[
+                      ['Hesitation', 'High'],
+                      ['Retries', '2 Attempts'],
+                      ['Next Step', 'Narrowed Prompt'],
+                    ].map(([label, value]) => (
+                      <div key={label} style={{ ...smallCardStyle, padding: 16 }}>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.40)' }}>{label}</div>
+                        <div style={{ marginTop: 8, fontSize: 18, fontWeight: 600 }}>{value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-24 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">mvp flow</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
-              simple enough to test, strong enough to matter
-            </h2>
-            <ol className="mt-6 space-y-4 text-base leading-8 text-neutral-300">
-              <li>1. the student starts a task session.</li>
-              <li>2. the system observes timing, errors, retries, and interaction patterns.</li>
-              <li>3. jungbloom diagnoses the most likely friction.</li>
-              <li>4. the next ai-based question is generated accordingly.</li>
-              <li>5. the student gets a reasoned next step instead of generic repetition.</li>
-            </ol>
-          </div>
-
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">success metrics</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
-              what success should look like
-            </h2>
-            <ul className="mt-6 space-y-4 text-base leading-8 text-neutral-300">
-              <li>same-error repeat rate goes down.</li>
-              <li>task completion goes up.</li>
-              <li>student hesitation before first step goes down.</li>
-              <li>teachers spend less time preparing differentiated practice.</li>
-              <li>students return because the generated questions feel more useful.</li>
-            </ul>
-          </div>
-        </section>
-
-        <section className="mt-24 grid gap-8 lg:grid-cols-3">
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8 lg:col-span-2">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">data and explainability</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
-              minimal input, clearer output
-            </h2>
-
-            <div className="mt-6 grid gap-6 md:grid-cols-2">
-              <div>
-                <p className="text-base font-medium text-white">used now</p>
-                <ul className="mt-3 space-y-2 text-neutral-300">
-                  <li>• answer behavior</li>
-                  <li>• time-based signals</li>
-                  <li>• retry and abandonment patterns</li>
-                  <li>• task interaction data</li>
-                </ul>
-              </div>
-
-              <div>
-                <p className="text-base font-medium text-white">not required</p>
-                <ul className="mt-3 space-y-2 text-neutral-300">
-                  <li>• camera</li>
-                  <li>• microphone</li>
-                  <li>• location</li>
-                  <li>• personal messages</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-8 rounded-3xl border border-neutral-800 bg-neutral-950 p-5">
-              <p className="text-lg font-semibold">
-                jungbloom should not be a black box that spits out random tasks. it should show why the next question changed.
+      <section id="benefits" style={{ maxWidth: 1200, margin: '0 auto', padding: '8px 24px 24px' }}>
+        <div style={{ ...cardStyle, padding: 28 }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '0.85fr 1.15fr',
+              gap: 36,
+              alignItems: 'start',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>Why Jungbloom</div>
+              <h2
+                style={{
+                  marginTop: 12,
+                  fontSize: 'clamp(32px, 4vw, 52px)',
+                  lineHeight: 1.04,
+                  letterSpacing: '-0.03em',
+                  fontWeight: 700,
+                }}
+              >
+                Static Assignments Miss What Actually Went Wrong
+              </h2>
+              <p
+                style={{
+                  marginTop: 20,
+                  maxWidth: 520,
+                  fontSize: 16,
+                  lineHeight: 1.9,
+                  color: 'rgba(255,255,255,0.60)',
+                }}
+              >
+                Most homework systems treat every mistake the same. Jungbloom adapts the next
+                question based on how the student is struggling, not just whether the answer was correct.
               </p>
             </div>
-          </div>
 
-          <div className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">business</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-              scalable from day one
-            </h2>
-            <ul className="mt-6 space-y-4 text-neutral-300">
-              <li>school licensing</li>
-              <li>teacher tools</li>
-              <li>subscription model</li>
-              <li>ai assignment generation for classrooms and exam-prep learners</li>
-            </ul>
-          </div>
-        </section>
-
-        <section id="faq" className="mt-24">
-          <div className="max-w-3xl">
-            <p className="text-sm uppercase tracking-[0.18em] text-neutral-400">faq</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-              the questions people will ask immediately
-            </h2>
-          </div>
-
-          <div className="mt-10 space-y-4">
-            {faqs.map((item, index) => {
-              const open = openFaq === index;
-
-              return (
-                <div
-                  key={item.q}
-                  className="rounded-[2rem] border border-neutral-800 bg-neutral-900 p-6"
-                >
-                  <button
-                    onClick={() => setOpenFaq(open ? -1 : index)}
-                    className="flex w-full items-center justify-between gap-4 text-left"
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+              {benefits.map((item) => (
+                <div key={item.title} style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
+                  <div style={{ fontSize: 20, fontWeight: 600 }}>{item.title}</div>
+                  <div
+                    style={{
+                      marginTop: 12,
+                      fontSize: 14,
+                      lineHeight: 1.8,
+                      color: 'rgba(255,255,255,0.60)',
+                    }}
                   >
-                    <h3 className="text-xl font-semibold">{item.q}</h3>
-                    <span className="text-2xl text-neutral-400">{open ? '−' : '+'}</span>
-                  </button>
-
-                  {open && (
-                    <p className="mt-4 max-w-4xl leading-8 text-neutral-300">
-                      {item.a}
-                    </p>
-                  )}
+                    {item.description}
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-24 rounded-[2rem] border border-neutral-800 bg-white px-8 py-10 text-black">
-          <p className="text-sm uppercase tracking-[0.18em] text-neutral-600">final statement</p>
-          <h2 className="mt-4 max-w-4xl text-3xl font-semibold tracking-tight md:text-5xl md:leading-[1.1]">
-            jungbloom is not just generating more homework. it is generating the right next question for the right reason.
-          </h2>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button className="rounded-2xl bg-black px-5 py-3 font-medium text-white transition hover:opacity-90">
-              request pilot access
-            </button>
-            <button className="rounded-2xl border border-neutral-300 px-5 py-3 text-black transition hover:bg-neutral-100">
-              get in touch
-            </button>
+      <section id="how" style={{ maxWidth: 1200, margin: '0 auto', padding: '70px 24px 24px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: 20,
+            alignItems: 'flex-end',
+            flexWrap: 'wrap',
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>How It Works</div>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: 'clamp(32px, 4vw, 52px)',
+                lineHeight: 1.04,
+                letterSpacing: '-0.03em',
+                fontWeight: 700,
+              }}
+            >
+              From Student Behavior To Better Next Questions
+            </h2>
           </div>
-        </section>
-      </div>
-    </div>
+          <p
+            style={{
+              maxWidth: 540,
+              fontSize: 16,
+              lineHeight: 1.9,
+              color: 'rgba(255,255,255,0.60)',
+            }}
+          >
+            The flow is simple enough to pilot quickly, but specific enough to reduce repetitive
+            teacher effort and improve assignment relevance.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+          {steps.map((step) => (
+            <div key={step.number} style={{ ...smallCardStyle, padding: 24 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>{step.number}</div>
+              <div style={{ marginTop: 16, fontSize: 28, fontWeight: 600, lineHeight: 1.15 }}>
+                {step.title}
+              </div>
+              <div
+                style={{
+                  marginTop: 14,
+                  fontSize: 14,
+                  lineHeight: 1.8,
+                  color: 'rgba(255,255,255,0.60)',
+                }}
+              >
+                {step.description}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+          <div style={{ ...cardStyle, padding: 28 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>For Teachers</div>
+            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+              Reduce Repetitive Prep Work
+            </h2>
+            <p
+              style={{
+                marginTop: 20,
+                maxWidth: 560,
+                fontSize: 16,
+                lineHeight: 1.9,
+                color: 'rgba(255,255,255,0.60)',
+              }}
+            >
+              Instead of manually building multiple follow-up worksheets, teachers can rely on
+              Jungbloom to generate better-targeted practice automatically.
+            </p>
+
+            <div style={{ marginTop: 22, display: 'grid', gap: 12 }}>
+              {[
+                'Generate differentiated follow-up questions faster',
+                'Reduce repetitive assignment design',
+                'Support more students without multiplying prep time',
+              ].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    ...smallCardStyle,
+                    padding: 16,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 12,
+                    background: 'rgba(0,0,0,0.20)',
+                  }}
+                >
+                  <span
+                    style={{
+                      marginTop: 6,
+                      width: 10,
+                      height: 10,
+                      borderRadius: 999,
+                      background: '#34d399',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span style={{ fontSize: 14, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)' }}>
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ ...cardStyle, padding: 28 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>For Students</div>
+            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+              Get The Right Kind Of Practice
+            </h2>
+            <p
+              style={{
+                marginTop: 20,
+                maxWidth: 560,
+                fontSize: 16,
+                lineHeight: 1.9,
+                color: 'rgba(255,255,255,0.60)',
+              }}
+            >
+              Students should not keep receiving the same style of question after every mistake.
+              Jungbloom adjusts the next task to match the real point of struggle.
+            </p>
+
+            <div style={{ marginTop: 22, display: 'grid', gap: 12 }}>
+              {[
+                'More useful follow-up questions',
+                'Less random repetition',
+                'Clearer progression from confusion to confidence',
+              ].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    ...smallCardStyle,
+                    padding: 16,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 12,
+                    background: 'rgba(0,0,0,0.20)',
+                  }}
+                >
+                  <span
+                    style={{
+                      marginTop: 6,
+                      width: 10,
+                      height: 10,
+                      borderRadius: 999,
+                      background: '#34d399',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span style={{ fontSize: 14, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)' }}>
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '70px 24px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 14 }}>
+          <div style={{ ...cardStyle, padding: 28 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>Adaptive Generation</div>
+            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+              Question Quality Should Improve With Context
+            </h2>
+            <p
+              style={{
+                marginTop: 20,
+                maxWidth: 720,
+                fontSize: 16,
+                lineHeight: 1.9,
+                color: 'rgba(255,255,255,0.60)',
+              }}
+            >
+              Good question generation is not about producing more questions. It is about
+              producing more relevant ones. Jungbloom uses student response behavior to shape the next step with more precision.
+            </p>
+
+            <div style={{ marginTop: 26, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+              <div style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>Input Signals</div>
+                <div style={{ marginTop: 8, fontSize: 20, fontWeight: 600, lineHeight: 1.35 }}>
+                  Timing, Retries, Hesitation, Answer Patterns
+                </div>
+              </div>
+              <div style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>Output Logic</div>
+                <div style={{ marginTop: 8, fontSize: 20, fontWeight: 600, lineHeight: 1.35 }}>
+                  Better-Targeted Follow-Up Questions
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="future" style={{ ...cardStyle, padding: 28, background: '#0d0f0e' }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>Future PDF Learning Layer</div>
+            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+              Built To Learn From Real Teaching Material
+            </h2>
+            <p
+              style={{
+                marginTop: 20,
+                fontSize: 16,
+                lineHeight: 1.9,
+                color: 'rgba(255,255,255,0.60)',
+              }}
+            >
+              In later versions, uploaded PDFs and worksheets can help Jungbloom learn from real
+              curriculum-aligned question structures and improve generation quality over time.
+            </p>
+
+            <div style={{ marginTop: 24, display: 'grid', gap: 12 }}>
+              {[
+                'Teacher-uploaded worksheets as structured input',
+                'Stronger alignment with real classroom material',
+                'Improved question style and quality as the system matures',
+              ].map((item) => (
+                <div key={item} style={{ ...smallCardStyle, padding: 16, background: 'rgba(0,0,0,0.20)' }}>
+                  <div style={{ fontSize: 14, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)' }}>
+                    {item}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                marginTop: 24,
+                borderRadius: 12,
+                border: '1px solid rgba(52,211,153,0.16)',
+                background: 'rgba(52,211,153,0.10)',
+                padding: 16,
+                color: '#d1fae5',
+                fontSize: 14,
+                lineHeight: 1.8,
+              }}
+            >
+              This layer supports long-term improvement, but the primary value stays the same:
+              reducing teacher workload through better adaptive assignment generation.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 24px 90px' }}>
+        <div
+          style={{
+            background: 'white',
+            color: 'black',
+            borderRadius: 16,
+            padding: 32,
+            border: '1px solid rgba(0,0,0,0.06)',
+          }}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr auto',
+              gap: 24,
+              alignItems: 'end',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#047857' }}>Final CTA</div>
+              <h2
+                style={{
+                  marginTop: 12,
+                  maxWidth: 900,
+                  fontSize: 'clamp(32px, 4.8vw, 58px)',
+                  lineHeight: 1.02,
+                  letterSpacing: '-0.03em',
+                  fontWeight: 700,
+                }}
+              >
+                Jungbloom Generates Better Next Questions, So Teachers Don’t Have To Do It All By Hand.
+              </h2>
+              <p
+                style={{
+                  marginTop: 18,
+                  maxWidth: 720,
+                  fontSize: 16,
+                  lineHeight: 1.9,
+                  color: 'rgba(0,0,0,0.65)',
+                }}
+              >
+                Bring adaptive AI-based assignments into the classroom with a system designed to
+                reduce repetitive prep work and improve the usefulness of student practice.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <Link
+                href="/contact"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'black',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 10,
+                  padding: '14px 18px',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                }}
+              >
+                Request Pilot Access
+              </Link>
+              <Link
+                href="/contact"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'transparent',
+                  color: 'black',
+                  border: '1px solid rgba(0,0,0,0.10)',
+                  borderRadius: 10,
+                  padding: '14px 18px',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                }}
+              >
+                Book A Demo
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
