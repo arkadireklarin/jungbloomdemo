@@ -1,6 +1,33 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function JungbloomLandingPage() {
+  const [viewport, setViewport] = useState({
+    isMobile: false,
+    isTablet: false,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setViewport({
+        isMobile: width <= 768,
+        isTablet: width <= 1024,
+      });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const { isMobile, isTablet } = viewport;
+
   const benefits = [
     {
       title: 'Less Manual Prep',
@@ -43,28 +70,13 @@ export default function JungbloomLandingPage() {
   const cardStyle = {
     background: 'rgba(255,255,255,0.03)',
     border: '1px solid rgba(255,255,255,0.10)',
-    borderRadius: '16px',
+    borderRadius: isMobile ? 14 : 16,
   };
 
   const smallCardStyle = {
     background: 'rgba(255,255,255,0.03)',
     border: '1px solid rgba(255,255,255,0.10)',
-    borderRadius: '12px',
-  };
-
-  const buttonPrimary = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#34d399',
-    color: '#04130c',
-    border: 'none',
-    borderRadius: '10px',
-    padding: '14px 18px',
-    fontSize: '14px',
-    fontWeight: 600,
-    cursor: 'pointer',
-    textDecoration: 'none',
+    borderRadius: isMobile ? 10 : 12,
   };
 
   const buttonSecondary = {
@@ -74,13 +86,51 @@ export default function JungbloomLandingPage() {
     background: 'transparent',
     color: 'white',
     border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: '10px',
-    padding: '14px 18px',
-    fontSize: '14px',
+    borderRadius: 10,
+    padding: isMobile ? '14px 16px' : '14px 18px',
+    fontSize: 14,
     fontWeight: 600,
     cursor: 'pointer',
     textDecoration: 'none',
+    width: isMobile ? '100%' : 'auto',
+    boxSizing: 'border-box',
   };
+
+  const buttonWhite = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'white',
+    color: 'black',
+    border: 'none',
+    borderRadius: 10,
+    padding: isMobile ? '14px 16px' : '14px 18px',
+    fontSize: 14,
+    fontWeight: 600,
+    cursor: 'pointer',
+    textDecoration: 'none',
+    width: isMobile ? '100%' : 'auto',
+    boxSizing: 'border-box',
+  };
+
+  const buttonBlack = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'black',
+    color: 'white',
+    border: 'none',
+    borderRadius: 10,
+    padding: '14px 18px',
+    fontSize: 14,
+    fontWeight: 600,
+    cursor: 'pointer',
+    textDecoration: 'none',
+    width: isMobile ? '100%' : 'auto',
+    boxSizing: 'border-box',
+  };
+
+  const h2Size = isMobile ? 28 : 40;
 
   return (
     <main
@@ -91,6 +141,7 @@ export default function JungbloomLandingPage() {
         color: 'white',
         fontFamily:
           'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        overflowX: 'hidden',
       }}
     >
       <header
@@ -107,15 +158,15 @@ export default function JungbloomLandingPage() {
           style={{
             maxWidth: 1200,
             margin: '0 auto',
-            padding: '16px 24px',
+            padding: isMobile ? '14px 16px' : '16px 24px',
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 20,
+            alignItems: isMobile ? 'flex-start' : 'center',
+            gap: 14,
             flexWrap: 'wrap',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
             <div
               style={{
                 width: 38,
@@ -126,21 +177,30 @@ export default function JungbloomLandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                overflow: 'hidden',
+                flexShrink: 0,
               }}
             >
-             <img
-  src="/logo.png" // public klasörüne at
-  alt="jungbloom logo"
-  style={{
-    width: 50,
-    height: 50,
-    objectFit: 'contain',
-  }}
-/>
+              <img
+                src="/logo.png"
+                alt="jungbloom logo"
+                style={{
+                  width: 50,
+                  height: 50,
+                  objectFit: 'contain',
+                }}
+              />
             </div>
-            <div>
+
+            <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 16, fontWeight: 700 }}>Jungbloom</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+              <div
+                style={{
+                  fontSize: isMobile ? 11 : 12,
+                  color: 'rgba(255,255,255,0.45)',
+                  lineHeight: 1.4,
+                }}
+              >
                 Adaptive AI Assignment Infrastructure
               </div>
             </div>
@@ -149,10 +209,12 @@ export default function JungbloomLandingPage() {
           <nav
             style={{
               display: 'flex',
-              gap: 22,
-              fontSize: 14,
+              gap: isMobile ? 12 : 22,
+              fontSize: isMobile ? 13 : 14,
               color: 'rgba(255,255,255,0.72)',
               flexWrap: 'wrap',
+              width: isMobile ? '100%' : 'auto',
+              order: isMobile ? 3 : 0,
             }}
           >
             <a href="#product" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -169,39 +231,36 @@ export default function JungbloomLandingPage() {
             </a>
           </nav>
 
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 10,
+              flexWrap: 'wrap',
+              width: isMobile ? '100%' : 'auto',
+            }}
+          >
             <Link href="/contact" style={buttonSecondary}>
               Request Demo
             </Link>
-            <Link
-              href="/contact"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'white',
-                color: 'black',
-                border: 'none',
-                borderRadius: '10px',
-                padding: ' 18px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-            >
+            <Link href="/contact" style={buttonWhite}>
               Contact
             </Link>
           </div>
         </div>
       </header>
 
-      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 24px 40px' }}>
+      <section
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '36px 16px 24px' : '72px 24px 40px',
+        }}
+      >
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1.05fr 0.95fr',
-            gap: 48,
+            gridTemplateColumns: isTablet ? '1fr' : '1.05fr 0.95fr',
+            gap: isMobile ? 24 : 48,
             alignItems: 'center',
           }}
         >
@@ -209,14 +268,14 @@ export default function JungbloomLandingPage() {
             <h1
               style={{
                 marginTop: 24,
-                fontSize: 'clamp(42px, 7vw, 76px)',
-                lineHeight: 0.96,
+                fontSize: isMobile ? 42 : 76,
+                lineHeight: isMobile ? 1.02 : 0.96,
                 letterSpacing: '-0.04em',
                 fontWeight: 700,
-                maxWidth: 820,
+                maxWidth: '100%',
               }}
             >
-              Smarter Assignments, 
+              Smarter Assignments,
               <br />
               Less Manual Work.
             </h1>
@@ -225,7 +284,7 @@ export default function JungbloomLandingPage() {
               style={{
                 marginTop: 24,
                 maxWidth: 720,
-                fontSize: 18,
+                fontSize: isMobile ? 15 : 18,
                 lineHeight: 1.8,
                 color: 'rgba(255,255,255,0.65)',
               }}
@@ -234,13 +293,11 @@ export default function JungbloomLandingPage() {
               generates more useful follow-up questions automatically.
             </p>
 
-
-
             <div
               style={{
                 marginTop: 34,
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, minmax(0, 1fr))',
                 gap: 20,
                 maxWidth: 760,
               }}
@@ -274,7 +331,7 @@ export default function JungbloomLandingPage() {
             >
               <div
                 style={{
-                  padding: '18px 20px',
+                  padding: isMobile ? 16 : '18px 20px',
                   borderBottom: '1px solid rgba(255,255,255,0.10)',
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -304,11 +361,11 @@ export default function JungbloomLandingPage() {
                 </div>
               </div>
 
-              <div style={{ padding: 20 }}>
+              <div style={{ padding: isMobile ? 16 : 20 }}>
                 <div
                   style={{
                     ...smallCardStyle,
-                    padding: 18,
+                    padding: isMobile ? 16 : 18,
                     background: 'rgba(255,255,255,0.02)',
                     marginBottom: 16,
                   }}
@@ -363,9 +420,9 @@ export default function JungbloomLandingPage() {
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: '64px 1fr auto',
+                        gridTemplateColumns: isMobile ? '1fr' : '64px 1fr auto',
                         gap: 14,
-                        alignItems: 'center',
+                        alignItems: isMobile ? 'stretch' : 'center',
                       }}
                     >
                       <div
@@ -394,7 +451,7 @@ export default function JungbloomLandingPage() {
                       </div>
 
                       <div>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white', lineHeight: 1.5 }}>
                           Grade 10 Algebra Worksheet — Quadratics Unit
                         </div>
                         <div
@@ -405,7 +462,8 @@ export default function JungbloomLandingPage() {
                             color: 'rgba(255,255,255,0.6)',
                           }}
                         >
-                          14 questions detected · topic tags extracted · difficulty distribution mapped
+                          14 questions detected · topic tags extracted · difficulty distribution
+                          mapped
                         </div>
                         <div
                           style={{
@@ -433,12 +491,13 @@ export default function JungbloomLandingPage() {
                         </div>
                       </div>
 
-                      <div>
+                      <div style={{ width: isMobile ? '100%' : 'auto' }}>
                         <button
                           style={{
                             ...buttonSecondary,
                             padding: '12px 14px',
                             fontSize: 13,
+                            width: isMobile ? '100%' : 'auto',
                           }}
                         >
                           Imported
@@ -448,7 +507,13 @@ export default function JungbloomLandingPage() {
                   </div>
                 </div>
 
-                <div style={{ ...smallCardStyle, padding: 18, background: 'rgba(0,0,0,0.24)' }}>
+                <div
+                  style={{
+                    ...smallCardStyle,
+                    padding: isMobile ? 16 : 18,
+                    background: 'rgba(0,0,0,0.24)',
+                  }}
+                >
                   <div
                     style={{
                       display: 'flex',
@@ -469,15 +534,29 @@ export default function JungbloomLandingPage() {
                       >
                         Student Session
                       </div>
-                      <div style={{ marginTop: 10, fontSize: 20, fontWeight: 600 }}>
+                      <div
+                        style={{
+                          marginTop: 10,
+                          fontSize: isMobile ? 18 : 20,
+                          fontWeight: 600,
+                        }}
+                      >
                         Algebra Practice · Session 04
                       </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
+
+                    <div style={{ textAlign: isMobile ? 'left' : 'right' }}>
                       <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.40)' }}>
                         Detected Difficulty
                       </div>
-                      <div style={{ marginTop: 8, fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>
+                      <div
+                        style={{
+                          marginTop: 8,
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: '#a7f3d0',
+                        }}
+                      >
                         Method Selection
                       </div>
                     </div>
@@ -519,8 +598,8 @@ export default function JungbloomLandingPage() {
                       <div
                         style={{
                           marginTop: 12,
-                          fontSize: 15,
-                          lineHeight: 1.85,
+                          fontSize: isMobile ? 14 : 15,
+                          lineHeight: 1.8,
                           color: 'rgba(255,255,255,0.76)',
                         }}
                       >
@@ -563,11 +642,12 @@ export default function JungbloomLandingPage() {
                           Start-Step Friction
                         </div>
                       </div>
+
                       <div
                         style={{
                           marginTop: 12,
                           display: 'grid',
-                          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                          gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, minmax(0, 1fr))',
                           gap: 10,
                         }}
                       >
@@ -592,6 +672,7 @@ export default function JungbloomLandingPage() {
                           </div>
                         ))}
                       </div>
+
                       <div
                         style={{
                           marginTop: 12,
@@ -636,11 +717,12 @@ export default function JungbloomLandingPage() {
                           Adapted
                         </div>
                       </div>
+
                       <div
                         style={{
                           marginTop: 12,
-                          fontSize: 15,
-                          lineHeight: 1.85,
+                          fontSize: isMobile ? 14 : 15,
+                          lineHeight: 1.8,
                           color: '#d1fae5',
                         }}
                       >
@@ -660,7 +742,7 @@ export default function JungbloomLandingPage() {
                     style={{
                       marginTop: 18,
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                      gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, minmax(0, 1fr))',
                       gap: 12,
                     }}
                   >
@@ -682,13 +764,20 @@ export default function JungbloomLandingPage() {
         </div>
       </section>
 
-      <section id="benefits" style={{ maxWidth: 1200, margin: '0 auto', padding: '8px 24px 24px' }}>
-        <div style={{ ...cardStyle, padding: 28 }}>
+      <section
+        id="benefits"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '8px 16px 24px' : '8px 24px 24px',
+        }}
+      >
+        <div style={{ ...cardStyle, padding: isMobile ? 20 : 28 }}>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '0.85fr 1.15fr',
-              gap: 36,
+              gridTemplateColumns: isTablet ? '1fr' : '0.85fr 1.15fr',
+              gap: isMobile ? 24 : 36,
               alignItems: 'start',
             }}
           >
@@ -697,7 +786,7 @@ export default function JungbloomLandingPage() {
               <h2
                 style={{
                   marginTop: 12,
-                  fontSize: 'clamp(32px, 4vw, 52px)',
+                  fontSize: isMobile ? 32 : 52,
                   lineHeight: 1.04,
                   letterSpacing: '-0.03em',
                   fontWeight: 700,
@@ -715,13 +804,27 @@ export default function JungbloomLandingPage() {
                 }}
               >
                 Most homework systems treat every mistake the same. Jungbloom adapts the next
-                question based on how the student is struggling, not just whether the answer was correct.
+                question based on how the student is struggling, not just whether the answer was
+                correct.
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : 'repeat(3, 1fr)',
+                gap: 14,
+              }}
+            >
               {benefits.map((item) => (
-                <div key={item.title} style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
+                <div
+                  key={item.title}
+                  style={{
+                    ...smallCardStyle,
+                    padding: 20,
+                    background: 'rgba(0,0,0,0.20)',
+                  }}
+                >
                   <div style={{ fontSize: 20, fontWeight: 600 }}>{item.title}</div>
                   <div
                     style={{
@@ -740,7 +843,14 @@ export default function JungbloomLandingPage() {
         </div>
       </section>
 
-      <section id="how" style={{ maxWidth: 1200, margin: '0 auto', padding: '70px 24px 24px' }}>
+      <section
+        id="how"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '40px 16px 24px' : '70px 24px 24px',
+        }}
+      >
         <div
           style={{
             display: 'flex',
@@ -755,7 +865,7 @@ export default function JungbloomLandingPage() {
             <h2
               style={{
                 marginTop: 12,
-                fontSize: 'clamp(32px, 4vw, 52px)',
+                fontSize: isMobile ? 32 : 52,
                 lineHeight: 1.04,
                 letterSpacing: '-0.03em',
                 fontWeight: 700,
@@ -777,11 +887,25 @@ export default function JungbloomLandingPage() {
           </p>
         </div>
 
-        <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div
+          style={{
+            marginTop: 24,
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : 'repeat(3, 1fr)',
+            gap: 14,
+          }}
+        >
           {steps.map((step) => (
             <div key={step.number} style={{ ...smallCardStyle, padding: 24 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>{step.number}</div>
-              <div style={{ marginTop: 16, fontSize: 28, fontWeight: 600, lineHeight: 1.15 }}>
+              <div
+                style={{
+                  marginTop: 16,
+                  fontSize: isMobile ? 24 : 28,
+                  fontWeight: 600,
+                  lineHeight: 1.15,
+                }}
+              >
                 {step.title}
               </div>
               <div
@@ -799,11 +923,31 @@ export default function JungbloomLandingPage() {
         </div>
       </section>
 
-      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
-          <div style={{ ...cardStyle, padding: 28 }}>
+      <section
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '24px 16px' : '24px 24px',
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isTablet ? '1fr' : 'repeat(2, 1fr)',
+            gap: 14,
+          }}
+        >
+          <div style={{ ...cardStyle, padding: isMobile ? 20 : 28 }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>For Teachers</div>
-            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: h2Size,
+                lineHeight: 1.04,
+                letterSpacing: '-0.03em',
+                fontWeight: 700,
+              }}
+            >
               Reduce Repetitive Prep Work
             </h2>
             <p
@@ -854,9 +998,17 @@ export default function JungbloomLandingPage() {
             </div>
           </div>
 
-          <div style={{ ...cardStyle, padding: 28 }}>
+          <div style={{ ...cardStyle, padding: isMobile ? 20 : 28 }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>For Students</div>
-            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: h2Size,
+                lineHeight: 1.04,
+                letterSpacing: '-0.03em',
+                fontWeight: 700,
+              }}
+            >
               Get The Right Kind Of Practice
             </h2>
             <p
@@ -909,11 +1061,33 @@ export default function JungbloomLandingPage() {
         </div>
       </section>
 
-      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '70px 24px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 14 }}>
-          <div style={{ ...cardStyle, padding: 28 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>Adaptive Generation</div>
-            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+      <section
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '40px 16px 24px' : '70px 24px 24px',
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isTablet ? '1fr' : '1.05fr 0.95fr',
+            gap: 14,
+          }}
+        >
+          <div style={{ ...cardStyle, padding: isMobile ? 20 : 28 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>
+              Adaptive Generation
+            </div>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: h2Size,
+                lineHeight: 1.04,
+                letterSpacing: '-0.03em',
+                fontWeight: 700,
+              }}
+            >
               Question Quality Should Improve With Context
             </h2>
             <p
@@ -926,16 +1100,25 @@ export default function JungbloomLandingPage() {
               }}
             >
               Good question generation is not about producing more questions. It is about
-              producing more relevant ones. Jungbloom uses student response behavior to shape the next step with more precision.
+              producing more relevant ones. Jungbloom uses student response behavior to shape the
+              next step with more precision.
             </p>
 
-            <div style={{ marginTop: 26, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+            <div
+              style={{
+                marginTop: 26,
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                gap: 14,
+              }}
+            >
               <div style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>Input Signals</div>
                 <div style={{ marginTop: 8, fontSize: 20, fontWeight: 600, lineHeight: 1.35 }}>
                   Timing, Retries, Hesitation, Answer Patterns
                 </div>
               </div>
+
               <div style={{ ...smallCardStyle, padding: 20, background: 'rgba(0,0,0,0.20)' }}>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>Output Logic</div>
                 <div style={{ marginTop: 8, fontSize: 20, fontWeight: 600, lineHeight: 1.35 }}>
@@ -945,9 +1128,19 @@ export default function JungbloomLandingPage() {
             </div>
           </div>
 
-          <div id="future" style={{ ...cardStyle, padding: 28, background: '#0d0f0e' }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>Future PDF Learning Layer</div>
-            <h2 style={{ marginTop: 12, fontSize: 40, lineHeight: 1.04, letterSpacing: '-0.03em', fontWeight: 700 }}>
+          <div id="future" style={{ ...cardStyle, padding: isMobile ? 20 : 28, background: '#0d0f0e' }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>
+              Future PDF Learning Layer
+            </div>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: h2Size,
+                lineHeight: 1.04,
+                letterSpacing: '-0.03em',
+                fontWeight: 700,
+              }}
+            >
               Built To Learn From Real Teaching Material
             </h2>
             <p
@@ -968,7 +1161,14 @@ export default function JungbloomLandingPage() {
                 'Stronger alignment with real classroom material',
                 'Improved question style and quality as the system matures',
               ].map((item) => (
-                <div key={item} style={{ ...smallCardStyle, padding: 16, background: 'rgba(0,0,0,0.20)' }}>
+                <div
+                  key={item}
+                  style={{
+                    ...smallCardStyle,
+                    padding: 16,
+                    background: 'rgba(0,0,0,0.20)',
+                  }}
+                >
                   <div style={{ fontSize: 14, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)' }}>
                     {item}
                   </div>
@@ -995,22 +1195,28 @@ export default function JungbloomLandingPage() {
         </div>
       </section>
 
-      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 24px 90px' }}>
+      <section
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '24px 16px 70px' : '24px 24px 90px',
+        }}
+      >
         <div
           style={{
             background: 'white',
             color: 'black',
             borderRadius: 16,
-            padding: 32,
+            padding: isMobile ? 20 : 32,
             border: '1px solid rgba(0,0,0,0.06)',
           }}
         >
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '1fr auto',
+              gridTemplateColumns: isTablet ? '1fr' : '1fr auto',
               gap: 24,
-              alignItems: 'end',
+              alignItems: isTablet ? 'start' : 'end',
             }}
           >
             <div>
@@ -1019,13 +1225,14 @@ export default function JungbloomLandingPage() {
                 style={{
                   marginTop: 12,
                   maxWidth: 900,
-                  fontSize: 'clamp(32px, 4.8vw, 58px)',
+                  fontSize: isMobile ? 30 : 58,
                   lineHeight: 1.02,
                   letterSpacing: '-0.03em',
                   fontWeight: 700,
                 }}
               >
-                Jungbloom Generates Better Next Questions, So Teachers Don’t Have To Do It All By Hand.
+                Jungbloom Generates Better Next Questions, So Teachers Don’t Have To Do It All By
+                Hand.
               </h2>
               <p
                 style={{
@@ -1041,26 +1248,18 @@ export default function JungbloomLandingPage() {
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link
-                href="/contact"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'black',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: 10,
-                  padding: '14px 18px',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                }}
-              >
+            <div
+              style={{
+                display: 'flex',
+                gap: 12,
+                flexWrap: 'wrap',
+                width: isMobile ? '100%' : 'auto',
+              }}
+            >
+              <Link href="/contact" style={buttonBlack}>
                 Request Pilot Access
               </Link>
+
               <Link
                 href="/contact"
                 style={{
@@ -1076,6 +1275,8 @@ export default function JungbloomLandingPage() {
                   fontWeight: 600,
                   cursor: 'pointer',
                   textDecoration: 'none',
+                  width: isMobile ? '100%' : 'auto',
+                  boxSizing: 'border-box',
                 }}
               >
                 Book A Demo
