@@ -681,8 +681,7 @@ export default function JungbloomLandingPage() {
                           color: 'rgba(255,255,255,0.72)',
                         }}
                       >
-                        The student does not appear fully blocked by the concept. The main issue is
-                        selecting a starting method with confidence.
+                        The main issue is student cannot decide which formula to use.
                       </div>
                     </div>
 

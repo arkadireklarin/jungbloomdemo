@@ -69,21 +69,14 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div
-            style={{
-              border: '1px solid rgba(255,255,255,0.10)',
-              borderRadius: 12,
-              padding: 16,
-              background: 'rgba(0,0,0,0.20)',
-            }}
-          >
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Use Case</div>
+         
+          
+       
             <div style={{ marginTop: 8, fontSize: 18, fontWeight: 600 }}>
-              School Pilots, Teacher Workflows, Adaptive Assignment Systems
             </div>
           </div>
         </div>
-      </div>
+      
     </main>
   );
 }
