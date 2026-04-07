@@ -9,6 +9,10 @@ export default function JungbloomLandingPage() {
     isTablet: false,
   });
 
+  const [message, setMessage] = useState('');
+  const [reply, setReply] = useState('');
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -132,6 +136,33 @@ export default function JungbloomLandingPage() {
 
   const h2Size = isMobile ? 28 : 40;
 
+  async function sendMessage() {
+    if (!message.trim()) return;
+
+    setLoading(true);
+    setReply('');
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setReply(data.error || 'something went wrong');
+      } else {
+        setReply(data.reply || 'no response');
+      }
+    } catch (error) {
+      setReply('connection error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main
       style={{
@@ -228,6 +259,9 @@ export default function JungbloomLandingPage() {
             </a>
             <a href="#future" style={{ color: 'inherit', textDecoration: 'none' }}>
               Future Layer
+            </a>
+            <a href="#chat-demo" style={{ color: 'inherit', textDecoration: 'none' }}>
+              AI Demo
             </a>
           </nav>
 
@@ -1189,6 +1223,222 @@ export default function JungbloomLandingPage() {
             >
               This layer supports long-term improvement, but the primary value stays the same:
               reducing teacher workload through better adaptive assignment generation.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="chat-demo"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: isMobile ? '40px 16px 24px' : '70px 24px 24px',
+        }}
+      >
+        <div style={{ ...cardStyle, padding: isMobile ? 20 : 28 }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: isTablet ? '1fr' : '0.9fr 1.1fr',
+              gap: 24,
+              alignItems: 'start',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#a7f3d0' }}>
+                AI Demo
+              </div>
+              <h2
+                style={{
+                  marginTop: 12,
+                  fontSize: isMobile ? 32 : 52,
+                  lineHeight: 1.04,
+                  letterSpacing: '-0.03em',
+                  fontWeight: 700,
+                }}
+              >
+                Talk To The System
+              </h2>
+              <p
+                style={{
+                  marginTop: 20,
+                  maxWidth: 520,
+                  fontSize: 16,
+                  lineHeight: 1.9,
+                  color: 'rgba(255,255,255,0.60)',
+                }}
+              >
+                This simple demo shows how Jungbloom can respond through an AI layer.
+                For now, this is a basic conversation interface connected to the model.
+              </p>
+
+              <div style={{ marginTop: 18, display: 'grid', gap: 12 }}>
+                {[
+                  'Connected through backend API route',
+                  'Safe key handling with environment variables',
+                  'Can later evolve into friction-based response logic',
+                ].map((item) => (
+                  <div
+                    key={item}
+                    style={{
+                      ...smallCardStyle,
+                      padding: 16,
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 12,
+                      background: 'rgba(0,0,0,0.20)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        marginTop: 6,
+                        width: 10,
+                        height: 10,
+                        borderRadius: 999,
+                        background: '#34d399',
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontSize: 14,
+                        lineHeight: 1.8,
+                        color: 'rgba(255,255,255,0.72)',
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div
+              style={{
+                ...smallCardStyle,
+                padding: isMobile ? 16 : 20,
+                background: 'rgba(0,0,0,0.24)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 12,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>Live Chat Preview</div>
+                  <div
+                    style={{
+                      marginTop: 4,
+                      fontSize: 12,
+                      color: 'rgba(255,255,255,0.45)',
+                    }}
+                  >
+                    Basic Gemini Connection
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: 999,
+                    border: '1px solid rgba(52,211,153,0.18)',
+                    background: 'rgba(52,211,153,0.10)',
+                    color: '#a7f3d0',
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  Demo
+                </div>
+              </div>
+
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Ask something..."
+                rows={6}
+                style={{
+                  width: '100%',
+                  marginTop: 18,
+                  borderRadius: 12,
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  background: '#0f0f14',
+                  color: 'white',
+                  padding: '14px',
+                  resize: 'vertical',
+                  outline: 'none',
+                  fontSize: '15px',
+                  boxSizing: 'border-box',
+                }}
+              />
+
+              <div
+                style={{
+                  marginTop: 12,
+                  display: 'flex',
+                  gap: 10,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <button
+                  onClick={sendMessage}
+                  disabled={loading}
+                  style={{
+                    ...buttonWhite,
+                    opacity: loading ? 0.7 : 1,
+                  }}
+                >
+                  {loading ? 'Sending...' : 'Send Message'}
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMessage('');
+                    setReply('');
+                  }}
+                  style={buttonSecondary}
+                >
+                  Clear
+                </button>
+              </div>
+
+              <div
+                style={{
+                  marginTop: 18,
+                  borderRadius: 12,
+                  padding: 16,
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  background: 'rgba(255,255,255,0.03)',
+                  minHeight: 140,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: 'rgba(255,255,255,0.42)',
+                    marginBottom: 10,
+                  }}
+                >
+                  AI Response
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.8,
+                    color: 'rgba(255,255,255,0.78)',
+                    whiteSpace: 'pre-wrap',
+                  }}
+                >
+                  {reply || 'The model response will appear here.'}
+                </div>
+              </div>
             </div>
           </div>
         </div>
